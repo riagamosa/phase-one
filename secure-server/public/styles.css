@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Questrial&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 20px;
+}
+
+header {
+    text-align: center;
+    position: sticky;
+}
+
+body {
+    background-color: #f2f0ef;
+    font-family: 'Questrial', Tahoma, Verdana, sans-serif;
+    margin: 0 auto;
+    justify-content: center;
+    max-width: 80ch;
+}
+
+h1 {
+    font-family: 'Archivo', Impact, 'Arial Narrow Bold', sans-serif;
+    font-weight: 700;
+}
+
+article {
+    background-color: whitesmoke;
+    border: 1px solid lightgray;
+    border-radius: 2px;
+    gap: 10px;
+}
+figure {
+    margin: 0 auto;
+
+}
+img {
+    max-width: 460px;
+    height: auto;
+}
