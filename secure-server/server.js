@@ -8,24 +8,24 @@ const helmet = require('helmet');
 const path = require('path');
 const mongoose = require('mongoose');
 // const bodyParser = require('body-parser');
-const authRoutes = require('./routes/auth');
 const session = require('express-session');
+const MongoStore = require('connect-mongo').default;
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+// const csrf = require('csurf');
+const rateLimit = require('express-rate-limit');
+
+const authRoutes = require('./routes/auth');
 const adminRoutes = require('./routes/admin');
 const authenticateToken = require('./middlewares/auth');
 const authorizeRoles = require('./middlewares/authorize');
 
 const app = express();
-
 const PORT = process.env.PORT || 3000;
 const pages = path.join(__dirname, "pages");
 
 // parse json request bodies
 // app.use(bodyParser.json());
-app.use(express.json());
-app.use('/api/auth', authRoutes);
-app.use('/api/admin', adminRoutes);
 
 // helmet for security headers
 app.use(
@@ -50,12 +50,15 @@ app.use(
     })
 );
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 // session configuration
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: true } // Set to true in production
+    cookie: { secure: true }
 }));
 
 // initialize Passport and session
@@ -95,10 +98,64 @@ app.use(express.static('public', {
     }
 }));
 
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // max 5 attempts per window
+    message: 'Too many failed login attempts. Try again in 15 minutes.'
+});
+
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
+
 // homepage
 app.get('/', (req, res) => {
     res.sendFile(path.join(pages, "index.html"));
     // res.send('<h1>Welcome to the Secure App!</h1><a href="/auth/google">Login with Google</a>');
+    // res.send('<h1>Welcome to Secure Session Management App</h1><a href="/login">Login</a>');
+});
+
+// login
+app.get('/login', (req, res) => {
+    res.send(`
+        <h1>Login</h1>
+        <form method="POST" action="/login">            
+            <div>
+                <label>Username:</label>
+                <input type="text" name="username" />
+            </div>
+
+            <div>
+                <label>Password:</label>
+                <input type="password" name="password" />
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+    `);
+});
+
+app.post('/login', loginLimiter, (req, res, next) => {
+    const { username, password } = req.body;
+
+    // prevent account enumeration
+    if (username !== localUser.username || password !== localUser.password) {
+        return res.status(401).send('Invalid username or password');
+    }
+
+    // regenerate session after successful login
+    req.session.regenerate((err) => {
+        if (err) {
+            return next(err);
+        }
+
+        req.session.user = {
+            id: localUser.id,
+            username: localUser.username,
+            role: localUser.role
+        };
+
+        res.send('You are logged in. <a href="/dashboard">Go to Dashboard</a>');
+    });
 });
 
 app.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));

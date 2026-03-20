@@ -3,6 +3,7 @@
 const express = require('express');
 const argon2 = require('argon2');
 const User = require('../models/User');
+const authenticate = require("../middlewares/auth");
 
 const router = express.Router();
 
@@ -40,17 +41,24 @@ router.post('/login', async (req,res) => {
         const isMatch = await argon2.verify(user.password, password);
         if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
-        // generate jwt
+        // generate token
         const token = jwt.sign(
             { id: user._id, role: user.role },
             process.env.JWT_SECRET,  // Store the secret in the .env file
-            { expiresIn: '1h' }
+            { expiresIn: '24h' },
         );
 
         res.status(200).json({ message: "Login successful!", token });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+});
+
+router.get('/profile', authenticate, (req,res) => {
+    res.json({
+        message: "This is protected data",
+        user: req.user
+    });
 });
 
 module.exports = router;

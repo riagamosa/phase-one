@@ -13,8 +13,11 @@
   "dependencies": {
     "argon2": "^0.44.0",
     "body-parser": "^2.2.2",
+    "connect-mongo": "^6.0.0",
+    "csurf": "^1.11.0",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.3.1",
     "express-session": "^1.19.0",
     "fs": "^0.0.1-security",
     "helmet": "^8.1.0",
