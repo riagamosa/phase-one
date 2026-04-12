@@ -2,25 +2,48 @@
 
 const mongoose = require('mongoose');
 
+const encryptedFieldSchema = new mongoose.Schema(
+    {
+      encryptedData: { 
+        type: String, 
+        default: '' 
+        },
+      iv: { 
+        type: String, 
+        default: '' 
+        }
+    },
+    { 
+        _id: false 
+    }
+);
+
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-        unique: true,
+        unique: true
     },
     password: {
         type: String,
-        required: true,
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
+        required: true
     },
     role: {
         type: String,
         enum: ['user', 'admin'],
-        default: 'user',
+        default: 'user'
+    },
+    name: {
+        type: String,
+        default: '' 
+    },
+    emailEncrypted: {
+        type: encryptedFieldSchema, 
+        default: () => ({})
+    },
+    bioEncrypted: {
+        type: encryptedFieldSchema,
+        default: () => ({})
     }
 });
 

@@ -9,6 +9,14 @@ header {
     text-align: center;
     position: sticky;
 }
+.mainheader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.login-btn {
+    justify-content: flex-end;
+}
 
 body {
     background-color: #f2f0ef;
@@ -16,6 +24,15 @@ body {
     margin: 0 auto;
     justify-content: center;
     max-width: 80ch;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 h1 {
@@ -36,4 +53,46 @@ figure {
 img {
     max-width: 460px;
     height: auto;
+}
+.logincard {
+    justify-content: center;
+    margin: 0 auto;
+    border: 0.5px solid #c0392b;
+}
+.profile-info {
+    margin-top: 20px;
+}
+.placeholder {
+    margin-top: 30px;
+    padding: 15px;
+    background: #eef2f7;
+    border: 1px dashed #ccc;
+}
+button, .button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    border: none;
+    background-color: #e74c3c;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #c0392b;
+}
+
+.card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.dashform {
+    border: 0.8px solid #c0392b;
+}
+input, textarea {
+    font-family: 'Questrial', Tahoma, Verdana, sans-serif;
+}
+.logout-btn {
+    background-color: darkslategrey;
 }

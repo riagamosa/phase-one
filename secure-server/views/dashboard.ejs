@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="dashcard">
+        <h1>Welcome, <%= user.name || user.username %>!</h1>
+        <p>This is your dashboard.</p>
+    </div>
+    
+    <div class="dashcard">
+        <h2>Update Your Profile</h2>
+
+        <% if (success) { %>
+            <div class="success"><%= success %></div>
+        <% } %>
+
+        <% if (errors && errors.length > 0) { %>
+            <% errors.forEach(error => { %>
+                <div class="error"><%= error.msg %></div>
+            <% }) %>
+        <% } %>
+
+        <form action="/profile/update" method="POST" id="profileForm" class="dashform" novalidate>
+            <label for="name">Name:</label>
+            <input id="name" name="name" type="text" placeholder="Jane Doe" maxlength="50" pattern="[A-Za-z\s]+" autocomplete="off" value="<%= user.name || '' %>" required>
+            <small class="error" id="nameError"></small>
+
+            <label for="email">Email:</label>
+            <input id="email" name="email" type="email" placeholder="janedoe@example.com" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" autocomplete="off" value="<%= user.email || '' %>" required>
+            <small class="error" id="emailError"></small>
+
+            <label for="bio">Bio:</label>
+            <textarea id="bio" name="bio" rows="5" placeholder="Write your bio here..." maxlength="500" value="<%= user.bio || '' %>" required></textarea>
+            <small class="error" id="bioError"></small>
+
+            <button type="submit">Update Profile</button> 
+        </form>
+    </div>
+
+    <div class="dashcard">
+        <form action="/logout" method="POST">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </div>
+
+    <div>
+        <a href="/">Back to Home</a>
+    </div>
+
+    <script src="/validate.js"></script>
+</body>
+</html>

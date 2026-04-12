@@ -1,0 +1,37 @@
+name: Security Checks
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 0' # Runs weekly (Sunday)
+
+jobs:
+  audit-and-test:
+    runs-on: ubuntu-latest 
+
+    steps:
+      # Step 1: Get the code from GitHub
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Setup Node.js environment
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # Step 4: Run security audit (moderate+)
+      - name: Run npm audit
+        run: npm audit --audit-level=moderate
+
+      # Step 5: Attempt to fix vulnerabilities (non-blocking)
+      - name: Attempt to fix vulnerabilities
+        run: npm audit fix || true

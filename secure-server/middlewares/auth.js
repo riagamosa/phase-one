@@ -1,18 +1,12 @@
 "use strict";
 
-const jwt = require('jsonwebtoken');
-
-const authMiddleware = (req, res, next) => {
-  const token = req.header('Authorization').replace('Bearer ', '');
-  if (!token) return res.status(401).json({ message: "No token, authorization denied" });
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (error) {
-    res.status(401).json({ message: "Token is not valid" });
+module.exports = function authenticateToken(req, res, next) {
+  if (req.isAuthenticated && req.isAuthenticated()) {
+    return next();
   }
+  if (req.session && req.session.user) {
+    req.user = req.session.user;
+    return next();
+  }
+  return res.redirect("/login");
 };
-
-module.exports = authMiddleware;
