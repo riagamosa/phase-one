@@ -44,7 +44,9 @@ app.use(
             directives: {
                 defaultSrc: ["'self'"],
                 scriptSrc: ["'self'"],
+                scriptSrcElem: ["'self'"],
                 styleSrc: ["'self'", 'https://fonts.googleapis.com'],
+                styleSrcElem: ["'self'", 'https://fonts.googleapis.com'],
                 fontSrc: ["'self'", 'https://fonts.gstatic.com'],
                 imgSrc: ["'self'", 'data:', 'blob:'],
                 connectSrc: ["'self'"],

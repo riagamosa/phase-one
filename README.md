@@ -155,3 +155,49 @@ The other problem we had was when we were trying to encrypt our email and bio in
 
 The biggest problem came from part C in the assignment. We honestly had no clue where to begin in this section. The Actions workflow was something that neither of us had seen or heard of before and we had no clue how to approach it. We understood that we could use AI to help develop the workflow so that's where we started. We got ChatGPT to develop a workflow based on our code we had previously written. From there, we eliminated all the parts that made no sense to us. Once we were left with sections that made sense, we did further research and reading on what those sections meant. This was rather time consuming and led to us having to connect what we were learning to the code we had written. In the end we were able to come up with an action workflow that made the most sense to us. We understand that it might be missing sections or that there could be gaps in the understanding. This is a section that we would've taken more time researching/testing and furthering our understanding.  
 
+# Phase 4
+
+## Security Testing
+Manual 
+- Npm audit - checked for vulnerabilities right in the terminal 
+(2 low severity vulnerabilities found in our application)
+
+Automated
+- Download OWASP ZAP
+- Open ZAP application 
+- Change Mode from Standard to Protected 
+- On the top menu, click Session Properties
+- Select Context
+- Click Include in Context, and add your app URL
+- Click OK
+- Change mode back to Standard
+- On the Quick Start tab, click Automated Scan button 
+- Enter your app URL in the URL field
+- When picking a browser, select HtmlUnit
+- Click Attack
+
+## Vulnerability Fixes
+### Resolving: CSP: Failure to define directive with no feedback
+- Open server.js
+- Add directives to the current helmet: scriptSrcElem: ["'self'"], and styleSrcElem: ["'self'", 'https://fonts.googleapis.com'],
+- Restart your server: npm start
+- Go back to ZAP
+- Click Quick Start
+- Choose Automated Scan
+- Add the URL in the URL field
+- Choose HtmlUnit for the browser
+- Click Attack
+
+After attempting to implement a fix to the vulnerability, the solution and validation were still unsuccessful. ZAP continued to show the vulnerability however, it offered no other solution method for us to try. Research and additional readings gave us the same idea for a solution thus making us think the issue runs deeper than we thought. Due to this conclusion, we had no insight on where to go from here and decided to leave the vulnerability unresolved for now.  
+
+## Testing Tools
+1. OWASP ZAP - used to check for vulnerabilities by automating the process.
+2. Figma - used to create a threat modelling diagram which highlights basic flows, vulnerabilities and critical assets.
+3. Visual Studio Code - used to write all of the necessary code including static front end and dynamic back end. This gave us access to the terminal which allowed us to test the application and display errors/vulnerabilities. 
+4. MongoDB - used to host our applications database. This allowed us to store user data and ensure encryption practices were implemented. 
+
+## Lessons Learned
+As we navigated through his final phase, we felt a bit more at ease with our application. We honestly thought that the entire thing would have errors or various vulnerabilities. It was reassuring to only see 4 main ones, and two of those were just informational. Seeing this gave us hope and truly lifted our spirits! When we used ZAP to gain information on our vulnerabilities, we knew we would have to do extra research to understand what the issue was and how we could solve it. We found that most of our vulnerabilities were small issues and could easily be resolved by adding a few lines of code or editing a section in our javascript files. The biggest issue we faced was with our cookie vulnerability. As we researched more about it, we discovered that the cookie issue was connected to our csurf issue from phase 2. This was something we did NOT want to deal with again. Csurf caused us so many issues and truly stumped us in how to solve it. That being said, we tried taking a look at the vulnerability and how it could be solved. Even if we didn't try it directly in our code, we wanted to understand why it was happening and how to hypothetically solve it. 
+
+When it comes to areas we can improve, we can both agree that our knowledge gap played a big role in this assignment. There were a lot of terms and definitions that prevented us from fully understanding what we were doing or looking at. Understanding not only the types of vulnerabilities but how they relate to our application is key in helping us solve the issues. In the future we would spend more time researching and developing our understanding so when issues pop up we have a better idea on how to approach them. 
+
