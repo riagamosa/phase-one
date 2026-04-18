@@ -157,6 +157,40 @@ The biggest problem came from part C in the assignment. We honestly had no clue 
 
 # Phase 4
 
+## Part A
+1. Critical assets:
+- User data: username, email, bio, files uploaded
+- Login sessions: JWT tokens
+- Database (MongoDB)
+- Server code (Express backend)
+
+2. How an attacker might exploit the application: 
+	There are a few ways an attacker could approach exploiting our application. The biggest way is by going through the form page on our dashboard or log-in. The form on our dashboard allows the user to update their profile by changing their name, email and bio. Without having proper security measures, these form fields can be extremely vulnerable. The first way an attacker could exploit our application is by injecting SQL into the form. An attacker can insert SQL queries that would not only affect the database but also give them unauthorized access. Another way to attack our system is by implementing XSS. This technique occurs when the attacker uses script text in a form field, such as the bio. Without proper sanitization, these lines of code can get written into the form field and executed when other users view the page. Lastly, an attacker could use CSRF to gain unauthorized access to the application. They can do this by creating a malicious webpage that connects to an authorized user. When that user is approved, the fake webpage automatically gives the attacker access without any security checks. Without adding a verification security measure, access could be given to any CSRF attacker.
+
+3. STRIDE type:
+- SQL Injection: Tampering
+- XSS: Tampering
+- Token theft: Information Disclosure
+- Fake login: Spoofing
+
+4. Each threat level of risk:
+-	SQL Injection: 
+	- Impact: HIGH, 
+	- Likelihood: LOW, 
+	- Level: MEDIUM
+-	XSS: 
+	- Impact: HIGH, 
+	- Likelihood: MEDIUM, 
+	- Level: HIGH
+-	Token Theft 
+	- Impact: HIGH, 
+	- Likelihood: MEDIUM, 
+	- Level: HIGH
+-	Fake Login: 
+	- Impact: HIGH, 
+	- Likelihood: MEDIUM, 
+	- Level: HIGH
+
 ## Security Testing
 Manual 
 - Npm audit - checked for vulnerabilities right in the terminal 
